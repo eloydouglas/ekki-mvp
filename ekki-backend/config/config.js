@@ -1,3 +1,6 @@
 module.exports = {
-    port: 3001
-}
+    server:{
+        port:3001
+    },
+    dbURI:''
+}   

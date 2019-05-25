@@ -26,7 +26,7 @@ app.listen(config.port, err => {
             require('./routes/' + file)(app);
     });
 
-    console.log(`API is running on port ${config.port}`);
+    console.log(`API is running on port ${config.server.port}`);
 });
 
 
