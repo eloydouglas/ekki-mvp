@@ -1,0 +1,17 @@
+.send{
+    grid-area: send;
+}
+
+.activity{
+    grid-area: activity;
+}
+
+.contacts{
+    grid-area: contacts;
+}
+
+.body-grid{
+    grid-template-areas: 
+        "activity contacs"
+        "send send";
+}

@@ -9,6 +9,8 @@ exports.index = (req, res) => {
 };
 
 exports.show = (req, res) => {
+
+    if(!req.params.id) return res.status(400).send();
     
     User.findById(req.params.id, (err, user) => {
         if (err) return res.json({ error: err });
@@ -33,8 +35,12 @@ exports.create = (req, res) => {
 
 exports.delete = (req, res) => {
 
+    if(!req.params.id) return res.status(400).send();
+
     User.findById(req.params.id, (err, user) => {
+
         if (err) return res.json({ error: err });
+
         user.remove(() => {
             if (err) return res.json({ error: err });
             res.status(204).send();
@@ -43,6 +49,9 @@ exports.delete = (req, res) => {
 };
 
 exports.update = (req, res) => {
+
+    if(!req.params.id) return res.status(400).send();
+
     User.findById(req.params.id, (err, user) => {
         if (err) return res.json({ error: err });
 
