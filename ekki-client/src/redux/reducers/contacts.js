@@ -1,20 +1,39 @@
-import * as actions from '../actions/contacts';
+import * as contactsActions from '../actions/contacts';
 
-const contacts = (state = {}, action) => {
+const INITIAL_CONTACTS_STATE = {
+    data: [
+    ],
+    fetching: false,
+    shouldFetch: true,
+    error: null,
+    shouldGoTo: false,
+    contact: null
+};
+
+const contacts = (state = INITIAL_CONTACTS_STATE, action) => {
     switch(action.type){
-        case actions.FETCH_USER_CONTACTS:{
-            return { ...state, contacts: action.contacts };
+        case contactsActions.FETCH_CONTACTS_BEGIN: {
+            return { ...state, fetching: true, shouldFetch: false, error: null}
         }
-        case actions.FETCHING_DATA:{
-            return { ...state, fetching: true };
+        case contactsActions.FETCH_CONTACTS_SUCCESS:{
+            return {...state, data: action.payload.contacts, shouldFetch: false, shouldGoTo: true, fetching: false}
         }
-        case actions.RECEIVE_USER_CONTACTS:{
-            return { ...state, userContacts: action.receivedContacts };
+        case contactsActions.FETCH_CONTACTS_FAILURE:{
+            return {...state, error: action.payload.error, fetching: false}
         }
-        default:{
-            return state;   
-        } 
-    }
-}
+        case contactsActions.CREATE_CONTACT_BEGIN:{
+            return {...state, error: action.payload.error, fetching: true}
+        }
+        case contactsActions.CREATE_CONTACT_SUCCESS:{
+            return {...state, contact: action.payload.contact, fetching: false}
+        }
+        case contactsActions.CREATE_CONTACT_FAILURE:{
+            return {...state, error: action.payload.error, fetching: false}
+        }
+        default: {
+            return state;
+        }
+    };  
+};
 
 export default contacts;

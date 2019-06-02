@@ -12,10 +12,9 @@ exports.index = (req, res) => {
     }catch(e){
         res.status(400).send();
     };
-    
-    if(contacts && contacts.length > 0){
 
-        console.log('here')
+        
+    if(contacts){
         User.find({_id: { $in: toObjectId(contacts) } },(err, users) => {
             if (err) return res.json({ error: err });
             res.status(200).send({ users });
@@ -34,7 +33,7 @@ exports.show = (req, res) => {
     
     User.findById(req.params.id, (err, user) => {
         if (err) return res.json({ error: err });
-        res.status(200).send({ user });
+        res.status(200).send(user);
     });
 };
 
@@ -85,7 +84,7 @@ exports.update = (req, res) => {
         user.save((err, updatedUser) => {
 
             if (err) return res.json({ error: err });
-            res.send({ data: updatedUser });
+            res.status(200).send(updatedUser);
         });
     });
 };
@@ -101,7 +100,7 @@ async function createAccount(user_id){
     const account = new Account({
         user_id,
         number: seq.sequential,
-        balance: 1000,
+        balance: 0,
         limit: 500,
     });
 

@@ -6,6 +6,9 @@ const path = require('path');
 const cors = require('cors');
 const fs = require('fs');
 
+var privateKey = fs.readFileSync('./sllcert/server.key');
+var certificate = fs.readFileSync('./sllcert/server.cert');
+
 const db = require('./db/db');
 
 const app = express();

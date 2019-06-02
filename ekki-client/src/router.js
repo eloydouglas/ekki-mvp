@@ -1,7 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Home from './components/Home';
+import Home from './containers/HomeContainer';
+import ContactForm from './components/ContactForm';
 import Activity from './components/Activity';
 import Contacts from './components/Contacts';
 import Transfer from './components/Transfer';
@@ -13,7 +14,9 @@ const Router = () => (
     <Route path="/" exact component={Home} />
     <Route path="/activity" exact component={Activity} />
     <Route path="/contacts" exact component={Contacts} />
-    <Route path="/send" exact component={Transfer} />
+    <Route path="/contacts/new" exact component={ContactForm} />
+    <Route path="/transfer" exact component={Transfer} />
+
     <Route path="/*" component={Unknown} />
   </Switch>
 );

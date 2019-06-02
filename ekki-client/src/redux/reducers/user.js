@@ -1,19 +1,24 @@
 import * as userActions from '../actions/user';
 
 const INITIAL_USER_STATE = {
-    loggedUser: {
-        _id: '5cf305aecd10d512aa936d55'
+    data: {
+        name: ''
     },
-    fetching: false
+    fetching: false,
+    shouldFetch: true,
+    error: null
 }
 
 const user = (state = INITIAL_USER_STATE, action) => {
     switch(action.type){
-        case userActions.FETCH_USER_DATA: {
-            return { ...state, fetching: true}
+        case userActions.FETCH_USER_BEGIN: {
+            return { ...state, fetching: true, shouldFetch: false, error: null}
         }
-        case userActions.RECEIVE_USER_DATA:{
-            return {...state, loggedUser: action.user}
+        case userActions.FETCH_USER_SUCCESS:{
+            return {...state, data: action.payload.user, fetching: false}
+        }
+        case userActions.FETCH_USER_FAILURE:{
+            return {...state, error: action.payload.error, loading: false}
         }
         default: {
             return state;
