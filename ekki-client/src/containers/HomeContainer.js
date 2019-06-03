@@ -22,6 +22,6 @@ const mapDispatchToProps = dispatch => {
             dispatch(fetchContacts(contacts));       
         }
     }
-  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

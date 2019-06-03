@@ -5,7 +5,6 @@ import {
     Body,
     Button
 } from '../shared';
-import avatar from '../../images/avatar.svg';
 import './Home.css';
 
 import { Link } from 'react-router-dom';
@@ -29,8 +28,7 @@ const Home = ({user, onPageLoad, handleContacts}) => {
                 <Button className="">
                     <Link to="/contacts">Contacts</Link>
                 </Button>
-                {/* <Button onClick={()=>handleContacts(user.contacts)} className="contacts">Contacts</Button> */}
-                <Button className="send">Send</Button>
+                <Button className="send">Transfer</Button>
             </Body>
         </Container>
     )

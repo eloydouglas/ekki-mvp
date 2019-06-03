@@ -39,9 +39,17 @@ export const fetchContactsFailure = err => {
         };
 };
 
-export const createContact = contact => {
-    return dispatch => {
+export const createContact = () => {
+    return (dispatch, getState) => {
         dispatch(createContactBegin())
+        const form = getState().form;
+
+        const contact = {
+            name: form.contact.name.value,
+            phone: form.contact.phone.value,
+            cpf: form.contact.cpf.value
+        };
+
         return fetch("http://localhost:4266/users", {
             method: "POST",
             body: JSON.stringify(contact)

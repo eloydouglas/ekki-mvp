@@ -1,5 +1,5 @@
 {
-  "scripts":{
+  "scripts": {
     "start": "concurrently \"cd ekki-backend && yarn start\" \"cd ekki-client && yarn start \""
   },
   "dependencies": {
