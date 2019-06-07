@@ -8,12 +8,11 @@ import {
 import './Home.css';
 
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 
 import UserData from '../UserData';
 
-const Home = ({user, onPageLoad, handleContacts}) => {
+const Home = ({user, account, onPageLoad, handleContacts}) => {
 
     useEffect(()=>{
         onPageLoad("5cf305aecd10d512aa936d56");
@@ -22,7 +21,7 @@ const Home = ({user, onPageLoad, handleContacts}) => {
     return(
         <Container>
             <Title>Ekki</Title>
-            <UserData user={user} account={{ balance: 1000 }}/>
+            <UserData user={user} account={account}/>
             <Body className="body-grid"> 
                 <Button className="activity">Activity</Button>
                 <Button className="">
@@ -34,4 +33,4 @@ const Home = ({user, onPageLoad, handleContacts}) => {
     )
 };
 
-export default connect()(Home);
+export default Home;

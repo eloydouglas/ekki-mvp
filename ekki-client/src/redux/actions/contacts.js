@@ -1,3 +1,5 @@
+import { updateUser } from './user'
+
 export const FETCH_CONTACTS_BEGIN = 'FETCH_CONTACTS_BEGIN';
 export const FETCH_CONTACTS_SUCCESS = 'FETCH_CONTACTS_SUCCESS';
 export const FETCH_CONTACTS_FAILURE = 'FETCH_CONTACTS_FAILURE';
@@ -39,24 +41,20 @@ export const fetchContactsFailure = err => {
         };
 };
 
-export const createContact = () => {
+export const createContact = (contact) => {
     return (dispatch, getState) => {
         dispatch(createContactBegin())
-        const form = getState().form;
-
-        const contact = {
-            name: form.contact.name.value,
-            phone: form.contact.phone.value,
-            cpf: form.contact.cpf.value
-        };
-
+        console.log(getState());
         return fetch("http://localhost:4266/users", {
             method: "POST",
-            body: JSON.stringify(contact)
+            body: JSON.stringify(contact),
+            headers: { "Content-Type": "application/json" }
         })
         .then(res => res.json())
         .then(json => {
             console.log(json);
+
+            // dispatch(updateUser(json.newUser._id));
             dispatch(createContactSuccess(json));
         })
         .catch(err => dispatch(createContactFailure(err)));

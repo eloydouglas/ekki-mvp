@@ -1,47 +1,50 @@
-import React from 'react';
-import { Container, Title } from '../shared';
-import { Field, reduxForm, Form } from 'redux-form'
+import React, {useState} from 'react';
+import {Container} from '../shared';
 
 
+const ContactForm = ({addContact}) => {
+    
+    const [ name, setName ] = useState("");
+    const [ phone, setPhone ] = useState("");
+    const [ cpf, setCpf ] = useState("");
 
-const ContactForm = ({addContact ,handleSubmit}) => {
-    return (
+
+    function onSubmit(event){
+        event.preventDefault();
+        addContact({name, phone, cpf});
+    };
+    
+    return(
         <Container>
-            <Title>Add Contact</Title>
-            <Form onSubmit={handleSubmit()}>
+            <form onSubmit={event => onSubmit(event)}>
                 <label>Name: </label>
-                <Field 
-                    required
-                    type="text"
-                    component="input"
-                    placeholder="e.g.: Albert Einstein"
-                    name="name"
-                >
-                </Field><br/>
-                <label>Phone: </label>
-                <Field
-                    required
-                    type="number"
-                    component="input"
-                    placeholder="e.g.: 55519937XXXX"
-                    name="phone"
-                >
-                </Field><br/>
-                <label>CPF: </label>
-                <Field
-                    required
-                    type="text"
-                    component="input"
-                    placeholder="e.g.: 11156854XX"
-                    name="cpf"
-                >
-                </Field><br/>
-                <button type="submit">Add</button>
-            </Form>
-        </Container>
-    )
-}
+                <input
+                    type='text'
+                    value={name}
+                    onChange={(event)=>setName(event.target.value)}
+                />
+                <br/>
 
-export default reduxForm({
-    form: 'contact'
-})(ContactForm);
+                <label>Phone: </label>
+                <input 
+                    type='number'
+                    value={phone}
+                    onChange={(event)=>setPhone(event.target.value)}
+                />
+                <br/>
+
+                <label>CPF: </label>
+                <input
+                    type='number'
+                    value={cpf}
+                    onChange={(event)=>setCpf(event.target.value)}
+                />
+                <br/>
+
+                <input type='submit' value='Submit'/><br/>
+            </form>
+        </Container>
+    );
+};
+
+export default ContactForm;

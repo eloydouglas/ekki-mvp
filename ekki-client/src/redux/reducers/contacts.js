@@ -22,7 +22,7 @@ const contacts = (state = INITIAL_CONTACTS_STATE, action) => {
             return {...state, error: action.payload.error, fetching: false}
         }
         case contactsActions.CREATE_CONTACT_BEGIN:{
-            return {...state, error: action.payload.error, fetching: true}
+            return {...state, fetching: true}
         }
         case contactsActions.CREATE_CONTACT_SUCCESS:{
             return {...state, contact: action.payload.contact, fetching: false}

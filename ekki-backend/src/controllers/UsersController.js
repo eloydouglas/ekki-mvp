@@ -2,7 +2,7 @@ const User = require('../models/User');
 const Account = require('../models/Account');
 const Sequential = require('../models/Sequential');
 
-const ObjectId = require('mongoose').Types.ObjectId;
+const arrayToObjectId = require('../helpers/mongoHelper').arrayToObjectId;
 
 exports.index = (req, res) => {
     let contacts;
@@ -15,7 +15,7 @@ exports.index = (req, res) => {
 
         
     if(contacts){
-        User.find({_id: { $in: toObjectId(contacts) } },(err, users) => {
+        User.find({_id: { $in: arrayToObjectId(contacts) } },(err, users) => {
             if (err) return res.json({ error: err });
             res.status(200).send({ users });
         });
@@ -38,7 +38,9 @@ exports.show = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    const {name, phone, cpf } = req.body;
+    const {name, phone, cpf} = req.body;
+
+    console.log(req.body);
 
 	const user = new User({
         name,
@@ -106,9 +108,3 @@ async function createAccount(user_id){
 
     return await account.save();
 }
-
-//Refactor later
-
-function toObjectId(arrayStr){
-    return arrayStr.map( item => ObjectId(item) );
-};

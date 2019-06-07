@@ -8,7 +8,7 @@ import { fetchContacts } from '../redux/actions/contacts';
 const mapStateToProps = state => {
     return {
         user: state.user.data,
-        account: state.account
+        account: state.account.data
     }
 }
 

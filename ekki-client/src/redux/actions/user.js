@@ -2,6 +2,11 @@ export const FETCH_USER_BEGIN = 'FETCH_USER_BEGIN';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
 
+export const UPDATE_USER_BEGIN = 'UPDATE_USER_BEGIN';
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
+
+
 export const SHOULD_FETCH_USER = 'SHOULD_FETCH_USER';
 
 export const fetchUser = (user_id) => {
@@ -26,8 +31,8 @@ export const fetchUserSuccess = user => {
     return {
             type: FETCH_USER_SUCCESS,
             payload: {user}
-        }
-}
+        };
+};
 
 export const fetchUserFailure = err => {
     return {
@@ -35,3 +40,42 @@ export const fetchUserFailure = err => {
             payload: {err}
         };
 };
+
+export const updateUser = user => {
+    return dispatch => {
+        dispatch(updateUserBegin())
+        return fetch(`http://localhost:4266/users/${user._id}`, {
+            method: "PATCH",
+            body: JSON.stringify(user),
+            headers: { "Content-Type": "application/json" }
+        })
+        .then(res => res.json())
+        .then(json => {
+            console.log(json);
+            dispatch(updateUserSuccess(json));
+        })
+        .catch(err => dispatch(updateUserFailure(err)));
+    };
+}
+
+export const updateUserBegin = () => {
+    return {
+        type: UPDATE_USER_BEGIN
+    };
+};
+
+export const updateUserSuccess = user => {
+    return {
+        type: UPDATE_USER_SUCCESS,
+        payload: {user}
+    };
+};
+
+export const updateUserFailure = err => {
+    return {
+        type: UPDATE_USER_FAILURE,
+        payload: {err}
+    };
+};
+
+
