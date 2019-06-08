@@ -1,8 +1,8 @@
 import Home from '../components/Home';
 import { connect } from 'react-redux';
 
-import { fetchUser } from '../redux/actions/user';
-import { fetchAccount } from '../redux/actions/account';
+import { fetchUserIfNeeded } from '../redux/actions/user';
+import { fetchAccountIfNeeded } from '../redux/actions/account';
 import { fetchContacts } from '../redux/actions/contacts';
 
 const mapStateToProps = state => {
@@ -14,9 +14,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPageLoad: user_id => {
-            dispatch(fetchUser(user_id));
-            dispatch(fetchAccount(user_id));
+        onPageLoad: userId => {
+            dispatch(fetchUserIfNeeded(userId));
+            dispatch(fetchAccountIfNeeded(userId));
         },
         handleContacts: contacts => {
             dispatch(fetchContacts(contacts));       

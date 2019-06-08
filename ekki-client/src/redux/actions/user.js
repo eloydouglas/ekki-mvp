@@ -6,13 +6,10 @@ export const UPDATE_USER_BEGIN = 'UPDATE_USER_BEGIN';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
 
-
-export const SHOULD_FETCH_USER = 'SHOULD_FETCH_USER';
-
-export const fetchUser = (user_id) => {
+const fetchUser = (userId) => {
     return dispatch => {
         dispatch(fetchUserBegin())
-        return fetch(`http://localhost:4266/users/${user_id}`)
+        return fetch(`http://localhost:4266/users/${userId}`)
         .then(res => res.json())
         .then(json => {
             dispatch(fetchUserSuccess(json));
@@ -21,20 +18,20 @@ export const fetchUser = (user_id) => {
     };
 };
 
-export const fetchUserBegin = () => {
+const fetchUserBegin = () => {
     return {
             type: FETCH_USER_BEGIN,
         };
 };
 
-export const fetchUserSuccess = user => {
+const fetchUserSuccess = user => {
     return {
             type: FETCH_USER_SUCCESS,
             payload: {user}
         };
 };
 
-export const fetchUserFailure = err => {
+const fetchUserFailure = err => {
     return {
             type: FETCH_USER_BEGIN,
             payload: {err}
@@ -58,24 +55,28 @@ export const updateUser = user => {
     };
 }
 
-export const updateUserBegin = () => {
+const updateUserBegin = () => {
     return {
         type: UPDATE_USER_BEGIN
     };
 };
 
-export const updateUserSuccess = user => {
+const updateUserSuccess = user => {
     return {
         type: UPDATE_USER_SUCCESS,
         payload: {user}
     };
 };
 
-export const updateUserFailure = err => {
+const updateUserFailure = err => {
     return {
         type: UPDATE_USER_FAILURE,
         payload: {err}
     };
 };
 
-
+export const fetchUserIfNeeded = (userId) => (dispatch, getState) => {
+    if (getState().user.shouldFetch) {
+      return dispatch(fetchUser(userId))
+    }
+}

@@ -9,7 +9,6 @@ import ekkiApp from '../../redux/reducers'
 
 const store = createStore(ekkiApp, applyMiddleware(thunk));
 
-
 const Root = () => {
     return(
         <Provider store={store}>

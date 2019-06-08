@@ -9,6 +9,8 @@ const fs = require('fs');
 var privateKey = fs.readFileSync('./sllcert/server.key');
 var certificate = fs.readFileSync('./sllcert/server.cert');
 
+const authenticate = require('./middlewares/authenticate');
+
 const db = require('./db/db');
 
 const app = express();
@@ -16,6 +18,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(authenticate);
 
 app.listen(process.env.PORT, err => {
     if (err) {

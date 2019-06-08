@@ -1,4 +1,5 @@
-import { updateUser } from './user'
+import { updateUser, fetchUserIfNeeded } from './user'
+import user from '../reducers/user';
 
 export const FETCH_CONTACTS_BEGIN = 'FETCH_CONTACTS_BEGIN';
 export const FETCH_CONTACTS_SUCCESS = 'FETCH_CONTACTS_SUCCESS';
@@ -20,21 +21,20 @@ export const fetchContacts = contacts => {
         .catch(err => dispatch(fetchContactsFailure(err)));
     };
 };
-
-export const fetchContactsBegin = () => {
+const fetchContactsBegin = () => {
     return {
             type: FETCH_CONTACTS_BEGIN,
         };
 };
 
-export const fetchContactsSuccess = contacts => {
+const fetchContactsSuccess = contacts => {
     return {
             type: FETCH_CONTACTS_SUCCESS,
             payload: {contacts}
         }
 };
 
-export const fetchContactsFailure = err => {
+const fetchContactsFailure = err => {
     return {
             type: FETCH_CONTACTS_BEGIN,
             payload: {err}
@@ -53,6 +53,8 @@ export const createContact = (contact) => {
         .then(res => res.json())
         .then(json => {
             console.log(json);
+            
+            dispatch(fetchUserIfNeeded())
 
             // dispatch(updateUser(json.newUser._id));
             dispatch(createContactSuccess(json));
@@ -61,16 +63,16 @@ export const createContact = (contact) => {
     }
 };
 
-export const createContactBegin = () => ({
+const createContactBegin = () => ({
     type: CREATE_CONTACT_BEGIN   
-})
+});
 
-export const createContactSuccess = contact => ({
+const createContactSuccess = contact => ({
     type: CREATE_CONTACT_SUCCESS,
     payload: {contact}
-})
+});
 
-export const createContactFailure = err => ({
+const createContactFailure = err => ({
     type: CREATE_CONTACT_FAILURE,
     payload: {err}
-})
+});
