@@ -1,38 +1,32 @@
-import * as contactsActions from '../actions/contacts';
-
 const INITIAL_CONTACTS_STATE = {
-    data: [
-    ],
+    data: null,
     fetching: false,
-    shouldFetch: true,
     error: null,
-    shouldGoTo: false,
-    contact: null
+    fetched: false
 };
 
 const contacts = (state = INITIAL_CONTACTS_STATE, action) => {
     switch(action.type){
-        case contactsActions.FETCH_CONTACTS_BEGIN: {
-            return { ...state, fetching: true, shouldFetch: false, error: null}
+        case 'FETCH_CONTACTS_BEGIN': {
+            return { ...state, fetching: true, error: null}
         }
-        case contactsActions.FETCH_CONTACTS_SUCCESS:{
-            return {...state, data: action.payload.contacts, shouldFetch: false, shouldGoTo: true, fetching: false}
+        case 'FETCH_CONTACTS_SUCCESS':{
+            return {...state, data: action.payload.contacts, fetching: false, fetched: true}
         }
-        case contactsActions.FETCH_CONTACTS_FAILURE:{
-            return {...state, error: action.payload.error, fetching: false}
+        case 'FETCH_CONTACTS_FAILURE':{
+            return {...state, error: action.payload.error, fetching: false, fetched: true}
         }
-        case contactsActions.CREATE_CONTACT_BEGIN:{
+        case 'CREATE_CONTACT_BEGIN':{
             return {...state, fetching: true}
         }
-        case contactsActions.CREATE_CONTACT_SUCCESS:{
-            return {...state, contact: action.payload.contact, fetching: false}
+        case 'CREATE_CONTACT_SUCCESS':{
+            return {...state, error: null, fetched: false, fetching: false}
         }
-        case contactsActions.CREATE_CONTACT_FAILURE:{
+        case 'CREATE_CONTACT_FAILURE':{
             return {...state, error: action.payload.error, fetching: false}
         }
-        default: {
+        default:
             return state;
-        }
     };  
 };
 

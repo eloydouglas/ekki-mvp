@@ -2,13 +2,13 @@ const User = require('../models/User');
 const Account = require('../models/Account');
 const Sequential = require('../models/Sequential');
 
-const arrayToObjectId = require('../helpers/mongoHelper').arrayToObjectId;
+const arrayToObjectId = require('../helpers/mongoHelper');
 
 exports.index = (req, res) => {
     let contacts;
-
     try{
         contacts = JSON.parse(req.query.contacts);
+        if(contacts.length == 0) return res.status(200).send([]);
     }catch(e){
         res.status(400).send();
     };
@@ -17,12 +17,12 @@ exports.index = (req, res) => {
     if(contacts){
         User.find({_id: { $in: arrayToObjectId(contacts) } },(err, users) => {
             if (err) return res.json({ error: err });
-            res.status(200).send({ users });
+            res.status(200).send(users);
         });
     }else{
         User.find((err, users) => {
             if (err) return res.json({ error: err });
-            res.status(200).send({ users });
+            res.status(200).send(users);
         });
     }    
 };
@@ -39,9 +39,6 @@ exports.show = (req, res) => {
 
 exports.create = (req, res) => {
     const {name, phone, cpf} = req.body;
-
-    console.log(req.body);
-
 	const user = new User({
         name,
         phone,
@@ -82,6 +79,7 @@ exports.update = (req, res) => {
         user.name = req.body.name || user.name;
         user.cpf = req.body.cpf || user.cpf;
         user.phone = req.body.phone || user.phone;
+        user.contacts = req.body.contacts || user.contacts;
         
         user.save((err, updatedUser) => {
 

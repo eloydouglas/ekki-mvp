@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {Container} from '../shared';
+import { Link } from 'react-router-dom';
+import {Container, Button} from '../shared';
 
 
 const ContactForm = ({addContact}) => {
@@ -7,7 +8,6 @@ const ContactForm = ({addContact}) => {
     const [ name, setName ] = useState("");
     const [ phone, setPhone ] = useState("");
     const [ cpf, setCpf ] = useState("");
-
 
     function onSubmit(event){
         event.preventDefault();
@@ -43,6 +43,7 @@ const ContactForm = ({addContact}) => {
 
                 <input type='submit' value='Submit'/><br/>
             </form>
+            <Link to="/contacts"><Button>Back</Button></Link>
         </Container>
     );
 };

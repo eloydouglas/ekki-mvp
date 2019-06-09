@@ -1,36 +1,45 @@
-import React, {useEffect} from 'react';
-import {
-    Container,
-    Title,
-    Body,
-    Button
-} from '../shared';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import {Container,Title,Body,Button,Loader} from '../shared';
 import './Home.css';
 
-import { Link } from 'react-router-dom';
 
 
+// import { fetchUser } from '../../redux/actions/user';
 import UserData from '../UserData';
 
-const Home = ({user, account, onPageLoad, handleContacts}) => {
-
-    useEffect(()=>{
-        onPageLoad("5cf305aecd10d512aa936d56");
-    },[]);
-
+const Home = ({user}) => {
     return(
         <Container>
             <Title>Ekki</Title>
-            <UserData user={user} account={account}/>
+            {user ? <UserData user={user}/> :  <Loader/>}
             <Body className="body-grid"> 
                 <Button className="activity">Activity</Button>
-                <Button className="">
-                    <Link to="/contacts">Contacts</Link>
-                </Button>
+                    <Link to="/contacts"><Button className="">Contacts</Button></Link>
                 <Button className="send">Transfer</Button>
             </Body>
         </Container>
     )
 };
 
-export default Home;
+const mapStateToProps = state => {
+    return {
+        user: state.user.data,
+        // account: state.account.data
+    }
+}
+
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         onPageLoad: userId => {
+//             dispatch(fetchUser(userId));
+//             // dispatch(fetchAccountIfNeeded(userId));
+//         },
+//         // handleContacts: contacts => {
+//         //     dispatch(fetchContacts(contacts));       
+//         // },
+//     }
+// }
+
+export default connect(mapStateToProps)(Home);

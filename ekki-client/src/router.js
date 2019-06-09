@@ -1,18 +1,44 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Route, Switch } from 'react-router-dom';
+import {connect} from 'react-redux';
 
-import Home from './containers/HomeContainer';
+import Home from './components/Home';
 import ContactFormContainer from './containers/ContactFormContainer';
 import Contacts from './components/Contacts';
+import {fetchUser} from './redux/actions/user';
+import { fetchAccount } from './redux/actions/account';
 
 
 
-const Router = () => (
-  <Switch>
-    <Route path="/" exact component={Home} />
-    <Route path="/contacts" exact component={Contacts} />
-    <Route path="/contacts/new" exact component={ContactFormContainer} />
-  </Switch>
-);
+const Router = ({user, getSampleUser}) => {
+  
+  useEffect(()=>{
+    if(!user){
+      getSampleUser("5cf305aecd10d512aa936d56");
+    }
+  });
+  
+  return(
+    <Switch>
+      <Route path="/" exact component={Home} />
+      <Route path="/contacts" exact component={Contacts} />
+      <Route path="/contacts/new" exact component={ContactFormContainer} />
+    </Switch>)
+};
 
-export default Router;
+const mapDispatchToProps = dispatch => {
+  return {
+    getSampleUser: (userId) => {
+      dispatch(fetchUser(userId));
+      dispatch(fetchAccount(userId))
+    }
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    user: state.user.data
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Router);
