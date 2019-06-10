@@ -9,4 +9,10 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(ContactForm);
+const mapStateToProps = state => {
+    return {
+        fetching: state.contacts.fetching
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

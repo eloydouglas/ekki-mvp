@@ -1,23 +1,35 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {Container,Title,Body,Button,Loader} from '../shared';
+import {Body,Button,Container, Loader} from '../shared';
 import './Home.css';
+import { fetchUser } from '../../redux/actions/user';
+import { fetchAccount } from '../../redux/actions/account';
 
-
-
-// import { fetchUser } from '../../redux/actions/user';
 import UserData from '../UserData';
 
-const Home = ({user}) => {
+const Home = ({user, account, onPageLoad}) => {
+
+    useEffect(()=>{
+        if(user){
+            onPageLoad(user._id);
+        };
+    }, []);
+
     return(
         <Container>
-            <Title>Ekki</Title>
-            {user ? <UserData user={user}/> :  <Loader/>}
-            <Body className="body-grid"> 
-                <Button className="activity">Activity</Button>
-                    <Link to="/contacts"><Button className="">Contacts</Button></Link>
-                <Button className="send">Transfer</Button>
+            <h1>Ekki</h1>
+            <Body>
+                {user && account ? <UserData user={user} account={account}/> :  <Loader/>}
+                <Link to="/activity">
+                    <Button>Activity</Button>
+                </Link>
+                <Link to="/contacts">
+                    <Button>Contacts</Button>
+                </Link>
+                <Link to="/transfer">
+                    <Button>Transfer</Button>
+                </Link>
             </Body>
         </Container>
     )
@@ -26,20 +38,17 @@ const Home = ({user}) => {
 const mapStateToProps = state => {
     return {
         user: state.user.data,
-        // account: state.account.data
+        account: state.account.data
     }
 }
 
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         onPageLoad: userId => {
-//             dispatch(fetchUser(userId));
-//             // dispatch(fetchAccountIfNeeded(userId));
-//         },
-//         // handleContacts: contacts => {
-//         //     dispatch(fetchContacts(contacts));       
-//         // },
-//     }
-// }
+const mapDispatchToProps = dispatch => {
+    return {
+        onPageLoad: userId => {
+            dispatch(fetchUser(userId));
+            dispatch(fetchAccount(userId));
+        },
+    }
+}
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

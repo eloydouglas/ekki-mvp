@@ -17,7 +17,7 @@ const AccountSchema = new Schema(
         },
     balance: {
         type: Number,
-        default: 1000.00
+        default: 0
         },
     limit: {
         type: Number,

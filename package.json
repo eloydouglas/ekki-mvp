@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "concurrently \"cd ekki-backend && yarn start\" \"cd ekki-client && yarn start \""
+    "start": "concurrently \"cd ekki-client && yarn start \" \"cd ekki-backend && yarn start && rs\""
   },
   "dependencies": {
     "concurrently": "^4.1.0"

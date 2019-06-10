@@ -9,22 +9,22 @@ exports.index = (req, res) => {
     try{
         contacts = JSON.parse(req.query.contacts);
         if(contacts.length == 0) return res.status(200).send([]);
+    
+        if(contacts){
+            User.find({_id: { $in: arrayToObjectId(contacts) } },(err, users) => {
+                if (err) return res.json({ error: err });
+                res.status(200).send(users);
+            });
+        }else{
+            User.find((err, users) => {
+                if (err) return res.json({ error: err });
+                res.status(200).send(users);
+            });
+        }
+    
     }catch(e){
-        res.status(400).send();
+        res.status(400).send({ error: e });
     };
-
-        
-    if(contacts){
-        User.find({_id: { $in: arrayToObjectId(contacts) } },(err, users) => {
-            if (err) return res.json({ error: err });
-            res.status(200).send(users);
-        });
-    }else{
-        User.find((err, users) => {
-            if (err) return res.json({ error: err });
-            res.status(200).send(users);
-        });
-    }    
 };
 
 exports.show = (req, res) => {

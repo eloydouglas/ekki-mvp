@@ -5,6 +5,9 @@ import {connect} from 'react-redux';
 import Home from './components/Home';
 import ContactFormContainer from './containers/ContactFormContainer';
 import Contacts from './components/Contacts';
+import Activity from './components/Activity';
+import Transfer from './components/Transfer';
+
 import {fetchUser} from './redux/actions/user';
 import { fetchAccount } from './redux/actions/account';
 
@@ -22,6 +25,8 @@ const Router = ({user, getSampleUser}) => {
     <Switch>
       <Route path="/" exact component={Home} />
       <Route path="/contacts" exact component={Contacts} />
+      <Route path="/activity" exact component={Activity} />
+      <Route path="/transfer" exact component={Transfer} />
       <Route path="/contacts/new" exact component={ContactFormContainer} />
     </Switch>)
 };

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import {Container, Button, Loader} from '../shared';
+import {Container, Button, Loader, Body, Title} from '../shared';
 import ContactsList from './ContactsList';
 import { fetchContacts } from "../../redux/actions/contacts";
 
@@ -31,9 +31,12 @@ const Contacts = ({ user, contacts, fetched, getContacts }) => {
 
     return (
         <Container>
-            {(fetched && contacts != null) ? <ContactsList contacts={contacts} /> :  <Loader/>}
-            <Link to="/"><Button>Back</Button></Link>
-            <Link to="/contacts/new"><Button>Add Contact</Button></Link>
+            <Title>Contacts</Title>
+            <Body>
+                {(fetched && contacts != null) ? <ContactsList contacts={contacts} /> :  <Loader/>}
+                <Link to="/"><Button>Back</Button></Link>
+                <Link to="/contacts/new"><Button>Add Contact</Button></Link>
+            </Body>
         </Container>
     );
 };

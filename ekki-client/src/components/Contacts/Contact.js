@@ -1,8 +1,15 @@
 import React from 'react';
-import './Contact'
+import '../shared/shared.css';
+import {ListButton} from '../shared'
 
-const Contact = ({name}) => {
-    return <li className="listItem"><a href="#">{name}</a></li>;
+
+const Contact = ({name, phone}) => {
+    return (<li className="listItem">
+                <div>
+                    <p>{name}</p>
+                    <p>Phone: {phone}</p>
+                </div>
+            </li>)
 }
 
 export default Contact;

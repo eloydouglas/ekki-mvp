@@ -2,6 +2,8 @@ import axios from 'axios';
 import { all, takeLatest, select, call, put } from 'redux-saga/effects';
 import setAuthToken from '../utils/setAuthToken';
 
+/* API calls */
+
 const postAuth = (user) => {
     return axios.post('/auth/signin', {id: user._id});
 };
@@ -24,6 +26,14 @@ const getContacts = (contacts) => {
 
 const postContact = (contact) => {
     return axios.post('/users/', {...contact});
+};
+
+const getActivity = (userId) => {
+    return axios.get(`/users-transactions/${userId}`);
+};
+
+const postTransaction = (transaction) => {
+    return axios.post('/users-transactions/', {...transaction});
 };
 
 /* Async Generators */
@@ -76,7 +86,7 @@ function* asyncUpdateUser(action){
     }catch(err){
         yield put({ type: "UPDATE_USER_FAILURE", payload: {error: err}});
     };
-}
+};
 
 function* asyncFetchAccount(action){
     try{
@@ -113,6 +123,72 @@ function* asyncCreateContact(action){
     }
 };
 
+function* asyncFetchActivity(){
+    try{
+        const currentUser = yield select(state=>state.user.data);
+        if(currentUser){
+            yield put({ type: "FETCH_ACTIVITY_BEGIN"});
+            const response = yield call(getActivity, currentUser._id);
+            yield put({ type: "FETCH_ACTIVITY_SUCCESS", payload: {activity: response.data}});
+            // let senders = response.data.filter(transaction => {
+            //     return (transaction.sender_id !== currentUser._id );
+            // });
+
+            // let receivers = response.data.filter(transaction => {
+            //     return (transaction.receiver_id !== currentUser._id );
+            // });
+
+            // receivers = receivers.map(receiver =>  receiver.receiver_id);
+            // senders = senders.map(sender =>  sender.sender_id);
+
+            // let users = [...new Set(receivers.concat(senders))];
+
+            // const usersData = yield call(getContacts, users);
+
+            // const transactions = usersData.map(user => {
+            //     return user.transactions = response.data.filter(transaction => {
+            //         return user._id == transaction.sender_id || user._id == transaction.receiver_id; 
+            //     });
+            // });
+
+
+            // response.data.forEach(transaction => {
+            //     if(transaction.receiver_id !== currentUser._id && transaction.sender_id !== currentUser._id){
+
+            //         if(!senders.some(sender => sender === transaction.sender_id)){
+
+            //             console.log(transaction.sender_id)
+            //             senders.push(transaction.sender_id);
+
+            //         }else if(!receivers.some(receiver => receiver === transaction.receiver_id)){
+
+            //             receivers.push(transaction.receiver_id);
+
+            //         };
+            //     };
+            // });
+            // console.log(transactions);
+        }else{
+            throw new Error("User not found");
+        };
+    }catch(err){
+        yield put({ type: "FETCH_ACTIVITY_FAILURE", payload: { error: err.message}});
+    }
+};
+
+function* asyncCreateTransaction(action){
+    try{
+        yield put({ type: "CREATE_TRANSACTION_BEGIN"});
+
+        const response = yield call(postTransaction, action.payload.transaction);
+
+        yield put({ type: "CREATE_TRANSACTION_SUCCESS", payload: { transaction: response.data.newTransaction } });
+
+    }catch(err){
+        yield put({ type: "CREATE_TRANSACTION_FAILURE", payload: {error: err}});
+    }
+};
+
 /* Watchers */
 
 function* watchFetchUser() {
@@ -135,6 +211,13 @@ function* watchAuthenticate() {
     yield takeLatest('AUTHENTICATE_USER', asyncAuthenticate);
 };
 
+function* watchFetchActivity() {
+    yield takeLatest('FETCH_ACTIVITY', asyncFetchActivity);
+};
+
+function* watchCreateTransaction() {
+    yield takeLatest('CREATE_TRANSACTION', asyncCreateTransaction);
+};
 
 
 export default function* rootSaga(){
@@ -143,6 +226,8 @@ export default function* rootSaga(){
         watchFetchUser(),
         watchFetchContacts(),
         watchFetchAccount(),
-        watchCreateContact()
+        watchCreateContact(),
+        watchFetchActivity(),
+        watchCreateTransaction()
     ]);
 };
