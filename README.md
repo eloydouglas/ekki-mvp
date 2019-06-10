@@ -11,7 +11,7 @@ Based in [karma git commit msg](http://karma-runner.github.io/4.0/dev/git-commit
 * React
 * Redux
 * React Router Dom
-* Redux-thunk
+* Redux-Saga
 * Styled Components
 * ...
 
@@ -20,4 +20,5 @@ Based in [karma git commit msg](http://karma-runner.github.io/4.0/dev/git-commit
 * Mongoose
 * Body-parser
 * Cors
+* JsonWebToken
 * ...
