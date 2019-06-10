@@ -22,3 +22,12 @@ Based in [karma git commit msg](http://karma-runner.github.io/4.0/dev/git-commit
 * Cors
 * JsonWebToken
 * ...
+
+### To do
+
+* Unit tests !!!!!
+* Improve validations
+* Improve Error infos
+* Add loggers
+* Deploy (Heroku or Netlify)
+* Improve UX and UI
