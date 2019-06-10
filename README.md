@@ -36,6 +36,7 @@ Based in [karma git commit msg](http://karma-runner.github.io/4.0/dev/git-commit
 ### To do
 
 * Unit tests !!!!!
+* Add Proptypes in all needed components
 * Improve validations
 * Improve Error infos
 * Add loggers
